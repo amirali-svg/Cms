@@ -41,7 +41,9 @@ const showCourses = (courses) => {
               <p class="product-price">${course.price.toLocaleString()}</p>
               <p class="product-shortName">${course.registersCount}</p>
               <div class="product-manage">
-                <button class="edit-btn" onclick ="showUpdateModal('${course._id}')">
+                <button class="edit-btn" onclick ="showUpdateModal('${
+                  course._id
+                }')">
                   <!-- Edit icon -->
                   <i class="fas fa-edit" onclick='updateCourse()'></i>
                 </button>
@@ -70,7 +72,7 @@ const showCreateModal = () => {
 };
 
 const showUpdateModal = (courseID) => {
-  courseIdToUpdate = courseID
+  courseIdToUpdate = courseID;
   updateModal.classList.remove("hidden");
 };
 
@@ -135,8 +137,36 @@ const removeCourse = () => {
 };
 
 const updateCourse = () => {
-console.log('Course Update => ',courseIdToUpdate);
+  console.log("Course Update => ", courseIdToUpdate);
+  const courseNewInfo = {
+    title: courseNewTitle.value,
+    price: +courseNewPrice.value,
+    registersCount: +courseNewStudentsCount.value,
+    category: courseNewCategory.value,
+  };
 
+  fetch(`https://js-cms.iran.liara.run/api/courses/${courseIdToUpdate}`, {
+    method: "PUT",
+    headers: {
+      "content-type": "application/json",
+    },
+    body: JSON.stringify(courseNewInfo),
+  }).then((response) => {
+    if (response.status === 201) {
+      hideUpdateModal();
+      fetchCourses();
+    }
+
+    return response.json();
+  })
+  .then((data) => {
+    console.log(data);
+    
+  })
+  .catch((err) => {
+    console.log(`[error] => ${err}`);
+    
+  })
 };
 
 const createCourse = () => {
@@ -202,5 +232,5 @@ rejectCreateCourse.addEventListener("click", hideUpdateModal);
 closeCreateModalBtn.addEventListener("click", hideCreateModal);
 acceptCreateCourse.addEventListener("click", createCourse);
 // updateBtn.addEventListener("click", showUpdateModal);
-acceptUpdateCourse.addEventListener('click', updateCourse)
-rejectUpdateCourse.addEventListener('click', hideUpdateModal)
+acceptUpdateCourse.addEventListener("click", updateCourse);
+rejectUpdateCourse.addEventListener("click", hideUpdateModal);
