@@ -150,7 +150,7 @@ const updateUser = () => {
     lastname: userNewFamilyname.value,
     username: userNewUsername.value,
     email: userNewEmail.value,
-    age: +userNewPassword.value
+    age: +userNewPassword.value,
   };
 
   fetch(`https://js-cms.iran.liara.run/api/users/${userIdToUpdate}`, {
