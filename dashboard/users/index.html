@@ -177,12 +177,18 @@
         <main class="modal-content">
           <input
             type="text"
-            class="modal-input user-new-name&familyname"
-            placeholder="نام و نام خانوادگی جدید را وارد نمائید ..."
+            class="modal-input user-new-name"
+            placeholder="نام جدید را وارد نمائید ..."
             
           />
           <input
-            type="number"
+            type="text"
+            class="modal-input user-new-familyname"
+            placeholder="نام خانوادگی جدید را وارد نمائید ..."
+            
+          />
+          <input
+            type="text"
             class="modal-input user-new-username"
             
             placeholder="نام کاربری جدید را وارد نمائید ..."
@@ -194,15 +200,15 @@
             placeholder="ایمیل جدید را وارد نمائید ..."
           />
           <input
-            type="email"
+            type="number"
             class="modal-input user-new-password"
             
-            placeholder="رمز عبور جدید را وارد نمائید ..."
+            placeholder="سن جدید را وارد نمائید ..."
           />
         </main>
         <footer class="modal-footer">
-          <button class="cancel">انصراف</button>
-          <button class="submit">تائید</button>
+          <button class="cancel reject-user-update">انصراف</button>
+          <button class="submit accept-user-update">تائید</button>
         </footer>
       </div>
     </div>
@@ -214,64 +220,26 @@
       <i class="fas fa-sun"></i>
     </button>
 
-    <!-- user create modal -->
-    <!-- 
-                <header class="modal-header">
-          <h3>ایجاد کاربر جدید</h3>
-          <button class="close-modal">
-            <i class="fas fa-times"></i>
-          </button>
-        </header>
-        <main class="modal-content">
-          <input
-            type="text"
-            class="modal-input"
-            placeholder="نام و نام خانوادگی را وارد نمائید ..."
-            id="user-fullName"
-          />
-          <input
-            type="number"
-            class="modal-input"
-            id="user-username"
-            placeholder="نام کاربری را وارد نمائید ..."
-          />
-          <input
-            type="email"
-            class="modal-input"
-            id="user-email"
-            placeholder="ایمیل را وارد نمائید ..."
-          />
-          <input
-          type="email"
-          class="modal-input"
-          id="user-password"
-          placeholder="رمز عبور را وارد نمائید ..."
-        />
-        </main>
-        <footer class="modal-footer">
-          <button class="cancel">انصراف</button>
-          <button class="submit">تائید</button>
-        </footer>
-     -->
-
     <!-- Remove user Modal  -->
-    <!-- 
+    <div class="modal-screen remove-modal hidden">
+      <div class="modal">
         <i class="ui-border top red"></i>
         <i class="ui-border bottom red"></i>
         <header class="modal-header">
-          <h3>اخراج کاربر</h3>
+          <h3>حذف کاربر</h3>
           <button class="close-modal">
             <i class="fas fa-times"></i>
           </button>
         </header>
         <main class="modal-content">
-          <p class="remove-text">آیا از اخراج(بن) کردن این کاربر اطمینان دارید؟</p>
+          <p class="remove-text">آیا از حذف (بن کردن) این کاربر اطمینان دارید؟</p>
         </main>
         <footer class="modal-footer">
-          <button class="cancel">انصراف</button>
-          <button class="submit">تائید</button>
+          <button class="submit accept-user-remove">تائید</button>
+          <button class="cancel reject-user-remove">انصراف</button>
         </footer>
-           -->
+      </div>
+    </div>
     <script src="./../../public/js/app.js"></script>
     <script src="script.js"></script>
   </body>

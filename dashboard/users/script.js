@@ -11,6 +11,23 @@ const newUserAge = document.querySelector(".new-user-password");
 const rejectCreateUser = document.querySelector(".reject-user-create");
 const acceptCreateUser = document.querySelector(".accept-user-create");
 
+// Remove user (Delete)
+const removeModal = document.querySelector(".remove-modal");
+const acceptUserRemove = document.querySelector(".accept-user-remove");
+const rejectUserRemove = document.querySelector(".reject-user-remove");
+
+// Update user (PUT)
+const updateModal = document.querySelector(".update-modal");
+const userNewName = document.querySelector(".user-new-name");
+const userNewFamilyname = document.querySelector(".user-new-familyname");
+const userNewUsername = document.querySelector(".user-new-username");
+const userNewEmail = document.querySelector(".user-new-email");
+const userNewPassword = document.querySelector(".user-new-password");
+const rejectUserUpdate = document.querySelector(".reject-user-update");
+const acceptUserUpdate = document.querySelector(".accept-user-update");
+const editBtn = document.querySelector(".edit-btn");
+
+let userIdToRemove;
 let userIdToUpdate = null;
 
 const showUsers = (users) => {
@@ -26,11 +43,15 @@ const showUsers = (users) => {
               <p class="user-email">${user.email}</p>
               <p class="user-password">${user.age}</p>
               <div class="product-manage">
-                <button class="edit-btn">
+                <button class="edit-btn" onclick ='showUpdateModal(${JSON.stringify(
+                  user
+                )})'>
                   <!-- Edit icon -->
                   <i class="fas fa-edit"></i>
                 </button>
-                <button class="remove-btn">
+                <button class="remove-btn" onclick="showRemoveModal('${
+                  user._id
+                }')">
                   <!-- Ban icon -->
                   <i class="fas fa-ban"></i>
                 </button>
@@ -41,6 +62,7 @@ const showUsers = (users) => {
   });
 };
 
+// Post functions
 const showCreateModal = () => {
   createModal.classList.remove("hidden");
 };
@@ -76,6 +98,81 @@ const createUser = () => {
   });
 };
 
+// Delete functions
+const showRemoveModal = (userId) => {
+  userIdToRemove = userId;
+
+  removeModal.classList.remove("hidden");
+};
+
+const hideRemoveModal = () => {
+  removeModal.classList.add("hidden");
+};
+
+const removeUser = () => {
+  fetch(`https://js-cms.iran.liara.run/api/users/${userIdToRemove}`, {
+    method: "DELETE",
+  })
+    .then((response) => {
+      if (response.status === 200) {
+        hideRemoveModal();
+        fetchUsers();
+      }
+
+      return response.json();
+    })
+    .then((data) => {
+      console.log(`[Message] => ${data.message} \n [ID] => ${data.id}`);
+    });
+};
+
+// Put functions
+const showUpdateModal = (user) => {
+  userIdToUpdate = user._id;
+
+  userNewName.value = user.firstname;
+  userNewFamilyname.value = user.lastname;
+  userNewUsername.value = user.username;
+  userNewEmail.value = user.email;
+  userNewPassword.value = user.age;
+
+  updateModal.classList.remove("hidden");
+};
+
+const hideUpdateModal = () => {
+  updateModal.classList.add("hidden");
+};
+
+const updateUser = () => {
+  console.log(`[User ID] => ${userIdToUpdate}`);
+  const userNewInfo = {
+    firstname: userNewName.value,
+    lastname: userNewFamilyname.value,
+    username: userNewUsername.value,
+    email: userNewEmail.value,
+    age: +userNewPassword.value
+  };
+
+  fetch(`https://js-cms.iran.liara.run/api/users/${userIdToUpdate}`, {
+    method: "PUT",
+    headers: {
+      "content-type": "application/json",
+    },
+    body: JSON.stringify(userNewInfo),
+  })
+    .then((response) => {
+      if (response.status === 200) {
+        hideUpdateModal();
+        fetchUsers();
+      }
+
+      return response.json();
+    })
+    .then((data) => {
+      console.log(data);
+    });
+};
+
 const fetchUsers = () => {
   fetch("https://js-cms.iran.liara.run/api/users")
     .then((response) => response.json())
@@ -85,6 +182,12 @@ const fetchUsers = () => {
 };
 
 window.addEventListener("load", fetchUsers);
-// createUserBtn.addEventListener('click', showCreateModal)
-rejectCreateUser.addEventListener("click", hideCreateModal);
+// Post
 acceptCreateUser.addEventListener("click", createUser);
+rejectCreateUser.addEventListener("click", hideCreateModal);
+// Delete
+acceptUserRemove.addEventListener("click", removeUser);
+rejectUserRemove.addEventListener("click", hideRemoveModal);
+// Put
+acceptUserUpdate.addEventListener("click", updateUser);
+rejectUserUpdate.addEventListener("click", hideUpdateModal);

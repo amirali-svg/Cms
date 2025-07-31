@@ -1,4 +1,4 @@
-// Delete
+// Delete 
 const tableBody = document.querySelector(".table-body");
 const removeModal = document.querySelector(".remove-modal");
 const rejectRemoveCourse = document.querySelector(".reject-remove-course");
