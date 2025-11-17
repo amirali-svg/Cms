@@ -1,5 +1,8 @@
+// * Users
 const tableBody = document.querySelector(".table-body");
-
+const toast = document.querySelector(".toast");
+const toastMessage = document.querySelector(".toast-content");
+const toastProgress = document.querySelector(".process");
 // Create user(POST)
 const createUserBtn = document.querySelector(".create-user");
 const createModal = document.querySelector(".create-modal");
@@ -90,6 +93,11 @@ const createUser = () => {
   }).then((response) => {
     if (response.status === 201) {
       fetchUsers();
+      showToast("success", "کاربر با موفقیت اضافه شد");
+      hideCreateModal();
+    } else {
+      showToast("fail", "خطا در اضافه کردن کاربر");
+      fetchUsers();
       hideCreateModal();
     }
     return response.json().then((data) => {
@@ -116,7 +124,12 @@ const removeUser = () => {
     .then((response) => {
       if (response.status === 200) {
         hideRemoveModal();
+        showToast("success", "کاربر با موفقیت حذف شد");
         fetchUsers();
+      } else {
+        showToast("fail", "خطا در حذف کاربر");
+        fetchUsers();
+        hideRemoveModal();
       }
 
       return response.json();
@@ -163,6 +176,11 @@ const updateUser = () => {
     .then((response) => {
       if (response.status === 200) {
         hideUpdateModal();
+        showToast("success", "کاربر با موفقیت ویرایش شد");
+        fetchUsers();
+      } else {
+        showToast("fail", "خطا در ویرایش کاربر");
+        hideUpdateModal();
         fetchUsers();
       }
 
@@ -179,6 +197,31 @@ const fetchUsers = () => {
     .then((data) => {
       showUsers(data);
     });
+};
+
+const showToast = (status, message) => {
+  toast.classList.remove("hidden");
+  toastMessage.innerHTML = message;
+
+  if (status == "success") {
+    toast.className = "toast success";
+  } else {
+    toast.className = "toast failed";
+  }
+
+  let toastProgressCounter = 0;
+
+  const toastProgressInterval = setInterval(() => {
+    toastProgressCounter++;
+
+    if (toastProgressCounter > 130) {
+      toastProgress.style.width = "1%";
+      toast.classList.add("hidden");
+      clearInterval(toastProgressInterval);
+    }
+
+    toastProgress.style.width = `${toastProgressCounter}%`;
+  }, 40);
 };
 
 window.addEventListener("load", fetchUsers);

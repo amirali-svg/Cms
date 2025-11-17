@@ -1,5 +1,7 @@
 const coursesCountElem = document.querySelector(".courses-count");
 const coursesCountTopElem = document.querySelector(".courses-count-top");
+const usersCountTopElem = document.querySelector(".users-count-top");
+const usersCountainer = document.querySelector(".latest-users");
 const coursesContainer = document.querySelector(".table-body");
 
 const showLastCourses = (courses) => {
@@ -30,6 +32,28 @@ const showLastCourses = (courses) => {
   });
 };
 
+const showLastUsers = (users) => {
+  const lastUsers = users.slice(-5);
+  lastUsers.forEach((user) => {
+    usersCountainer.insertAdjacentHTML(
+      "beforeend",
+      `
+        <article>
+              <!-- user icon -->
+              <span class="icon-card">
+                <i class="fa-solid fa-user"></i>
+              </span>
+              <!-- user data -->
+              <div>
+                <p class="user-name">${user.firstname}</p>
+                <p class="user-email">${user.email}</p>
+              </div>
+        </article>
+      `
+    );
+  });
+};
+
 window.addEventListener("load", () => {
   fetch("https://js-cms.iran.liara.run/api/courses")
     .then((response) => response.json())
@@ -38,5 +62,14 @@ window.addEventListener("load", () => {
       coursesCountTopElem.innerHTML = data.length;
 
       showLastCourses(data);
+    });
+});
+
+window.addEventListener("load", () => {
+  fetch("https://js-cms.iran.liara.run/api/users")
+    .then((response) => response.json())
+    .then((data) => {
+      usersCountTopElem.innerHTML = data.length;
+      showLastUsers(data);
     });
 });

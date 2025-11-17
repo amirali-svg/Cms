@@ -1,4 +1,6 @@
-// Delete 
+// * Courses
+
+// Delete
 const tableBody = document.querySelector(".table-body");
 const removeModal = document.querySelector(".remove-modal");
 const rejectRemoveCourse = document.querySelector(".reject-remove-course");
@@ -38,7 +40,7 @@ const showCourses = (courses) => {
        <div class="tableRow">
               <p class="product-title">${course.title}</p>
               <p class="product-title">${course.category}</p>
-              <p class="product-price">${course.price.toLocaleString()}</p>
+              <p class="product-price">${course.price}</p>
               <p class="product-shortName">${course.registersCount}</p>
               <div class="product-manage">
                 <button class="edit-btn" onclick ='showUpdateModal(${JSON.stringify(
@@ -111,7 +113,7 @@ const showToast = (status, message) => {
   const toastProgressInterval = setInterval(() => {
     toastProgressCounter++;
 
-    if (toastProgressCounter > 120) {
+    if (toastProgressCounter > 130) {
       toastProgress.style.width = "0%";
       toast.classList.add("hidden");
       clearInterval(toastProgressInterval);
@@ -130,6 +132,8 @@ const removeCourse = () => {
         fetchCourses();
         showToast("success", "دوره با موفقیت حذف شد");
         hideRemoveModal();
+      } else {
+        showToast("fail", "خطا در حذف دوره");
       }
 
       return response.json();
@@ -161,7 +165,10 @@ const updateCourse = () => {
     .then((response) => {
       if (response.status === 201) {
         hideUpdateModal();
+        showToast("fail", "دوره با موفقیت بروزرسانی شد");
         fetchCourses();
+      } else {
+        showToast("fail", "خطا در بروزرسانی دوره");
       }
 
       return response.json();
@@ -194,7 +201,10 @@ const createCourse = () => {
     .then((data) => {
       if (data.status === 201) {
         hideCreateModal();
+        showToast("success", "دوره با موفقیت اضافه شد");
         fetchCourses();
+      } else {
+        showToast("fail", "خطا در اضافه کردن دوره");
       }
 
       return data.json();
