@@ -71,7 +71,12 @@
                 <span>کاربر ثبت نام کرده اند.</span>
               </p>
             </div>
-            <a href="#" id="create-user" class="section-link create-user" onclick="showCreateModal()">
+            <a
+              href="#"
+              id="create-user"
+              class="section-link create-user"
+              onclick="showCreateModal()"
+            >
               <span>
                 <span> ایجاد کاربر </span>
                 <!-- Plus icon -->
@@ -90,9 +95,7 @@
           </div>
 
           <!-- Table body (content) -->
-          <div class="table-body">
-            
-          </div>
+          <div class="table-body"></div>
 
           <!-- Table Footer  -->
           <div class="table-footer">
@@ -179,30 +182,25 @@
             type="text"
             class="modal-input user-new-name"
             placeholder="نام جدید را وارد نمائید ..."
-            
           />
           <input
             type="text"
             class="modal-input user-new-familyname"
             placeholder="نام خانوادگی جدید را وارد نمائید ..."
-            
           />
           <input
             type="text"
             class="modal-input user-new-username"
-            
             placeholder="نام کاربری جدید را وارد نمائید ..."
           />
           <input
             type="email"
             class="modal-input user-new-email"
-            
             placeholder="ایمیل جدید را وارد نمائید ..."
           />
           <input
             type="number"
             class="modal-input user-new-password"
-            
             placeholder="سن جدید را وارد نمائید ..."
           />
         </main>
@@ -232,7 +230,9 @@
           </button>
         </header>
         <main class="modal-content">
-          <p class="remove-text">آیا از حذف (بن کردن) این کاربر اطمینان دارید؟</p>
+          <p class="remove-text">
+            آیا از حذف (بن کردن) این کاربر اطمینان دارید؟
+          </p>
         </main>
         <footer class="modal-footer">
           <button class="submit accept-user-remove">تائید</button>

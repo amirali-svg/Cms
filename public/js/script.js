@@ -58,7 +58,6 @@ window.addEventListener("load", () => {
   fetch("https://js-cms.iran.liara.run/api/courses")
     .then((response) => response.json())
     .then((data) => {
-      console.log(data);
       coursesCountTopElem.innerHTML = data.length;
 
       showLastCourses(data);
