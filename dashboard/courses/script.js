@@ -146,7 +146,6 @@ const removeCourse = () => {
 };
 
 const updateCourse = () => {
-  console.log("Course Update => ", courseIdToUpdate);
   const courseNewInfo = {
     title: courseNewTitle.value,
     price: +courseNewPrice.value,
