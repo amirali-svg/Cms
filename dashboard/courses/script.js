@@ -64,7 +64,6 @@ const showCourses = (courses) => {
 
 const showRemoveModal = (courseID) => {
   courseIdToRemove = courseID;
-  console.log(courseIdToRemove);
 
   removeModal.classList.remove("hidden");
 };
@@ -165,7 +164,7 @@ const updateCourse = () => {
     .then((response) => {
       if (response.status === 201) {
         hideUpdateModal();
-        showToast("fail", "دوره با موفقیت بروزرسانی شد");
+        showToast("success", "دوره با موفقیت بروزرسانی شد");
         fetchCourses();
       } else {
         showToast("fail", "خطا در بروزرسانی دوره");
@@ -197,21 +196,17 @@ const createCourse = () => {
       "content-type": "application/json",
     },
     body: JSON.stringify(newCourse),
-  })
-    .then((data) => {
-      if (data.status === 201) {
-        hideCreateModal();
-        showToast("success", "دوره با موفقیت اضافه شد");
-        fetchCourses();
-      } else {
-        showToast("fail", "خطا در اضافه کردن دوره");
-      }
+  }).then((data) => {
+    if (data.status === 201) {
+      hideCreateModal();
+      showToast("success", "دوره با موفقیت اضافه شد");
+      fetchCourses();
+    } else {
+      showToast("fail", "خطا در اضافه کردن دوره");
+    }
 
-      return data.json();
-    })
-    .then((data) => {
-      console.log(data);
-    });
+    return data.json();
+  });
 };
 
 const fetchCourses = () => {

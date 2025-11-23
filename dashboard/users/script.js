@@ -25,7 +25,7 @@ const userNewName = document.querySelector(".user-new-name");
 const userNewFamilyname = document.querySelector(".user-new-familyname");
 const userNewUsername = document.querySelector(".user-new-username");
 const userNewEmail = document.querySelector(".user-new-email");
-const userNewPassword = document.querySelector(".user-new-password");
+const userNewAge = document.querySelector(".user-new-age");
 const rejectUserUpdate = document.querySelector(".reject-user-update");
 const acceptUserUpdate = document.querySelector(".accept-user-update");
 const editBtn = document.querySelector(".edit-btn");
@@ -147,7 +147,7 @@ const showUpdateModal = (user) => {
   userNewFamilyname.value = user.lastname;
   userNewUsername.value = user.username;
   userNewEmail.value = user.email;
-  userNewPassword.value = user.age;
+  userNewAge.value = user.age;
 
   updateModal.classList.remove("hidden");
 };
@@ -158,12 +158,15 @@ const hideUpdateModal = () => {
 
 const updateUser = () => {
   console.log(`[User ID] => ${userIdToUpdate}`);
+
+  console.log("input age =", userNewAge.value);
+  console.log("typeof input age =", typeof userNewAge.value);
   const userNewInfo = {
     firstname: userNewName.value,
     lastname: userNewFamilyname.value,
     username: userNewUsername.value,
     email: userNewEmail.value,
-    age: +userNewPassword.value,
+    age: +userNewAge.value,
   };
 
   fetch(`https://js-cms.iran.liara.run/api/users/${userIdToUpdate}`, {
