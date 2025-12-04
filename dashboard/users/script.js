@@ -74,7 +74,7 @@ const hideCreateModal = () => {
   createModal.classList.add("hidden");
 };
 
-const createUser = () => {
+const createUser = async () => {
   const newUser = {
     firstname: newUserName.value,
     lastname: newUserFamilyname.value,
@@ -84,26 +84,23 @@ const createUser = () => {
     age: +newUserAge.value,
   };
 
-  fetch("https://js-cms.iran.liara.run/api/users", {
+  const res = await fetch("https://js-cms.iran.liara.run/api/users", {
     method: "POST",
     headers: {
       "content-type": "application/json",
     },
     body: JSON.stringify(newUser),
-  }).then((response) => {
-    if (response.status === 201) {
-      fetchUsers();
-      showToast("success", "کاربر با موفقیت اضافه شد");
-      hideCreateModal();
-    } else {
-      showToast("fail", "خطا در اضافه کردن کاربر");
-      fetchUsers();
-      hideCreateModal();
-    }
-    return response.json().then((data) => {
-      console.log(data);
-    });
   });
+
+  if (res.status === 201) {
+    fetchUsers();
+    showToast("success", "کاربر با موفقیت اضافه شد");
+    hideCreateModal();
+  } else {
+    showToast("fail", "خطا در اضافه کردن کاربر");
+    fetchUsers();
+    hideCreateModal();
+  }
 };
 
 // Delete functions
@@ -117,26 +114,23 @@ const hideRemoveModal = () => {
   removeModal.classList.add("hidden");
 };
 
-const removeUser = () => {
-  fetch(`https://js-cms.iran.liara.run/api/users/${userIdToRemove}`, {
-    method: "DELETE",
-  })
-    .then((response) => {
-      if (response.status === 200) {
-        hideRemoveModal();
-        showToast("success", "کاربر با موفقیت حذف شد");
-        fetchUsers();
-      } else {
-        showToast("fail", "خطا در حذف کاربر");
-        fetchUsers();
-        hideRemoveModal();
-      }
+const removeUser = async () => {
+  const response = await fetch(
+    `https://js-cms.iran.liara.run/api/users/${userIdToRemove}`,
+    {
+      method: "DELETE",
+    }
+  );
 
-      return response.json();
-    })
-    .then((data) => {
-      console.log(`[Message] => ${data.message} \n [ID] => ${data.id}`);
-    });
+  if (response.status === 200) {
+    hideRemoveModal();
+    showToast("success", "کاربر با موفقیت حذف شد");
+    fetchUsers();
+  } else {
+    showToast("fail", "خطا در حذف کاربر");
+    fetchUsers();
+    hideRemoveModal();
+  }
 };
 
 // Put functions
@@ -156,7 +150,7 @@ const hideUpdateModal = () => {
   updateModal.classList.add("hidden");
 };
 
-const updateUser = () => {
+const updateUser = async () => {
   console.log(`[User ID] => ${userIdToUpdate}`);
 
   console.log("input age =", userNewAge.value);
@@ -169,37 +163,33 @@ const updateUser = () => {
     age: +userNewAge.value,
   };
 
-  fetch(`https://js-cms.iran.liara.run/api/users/${userIdToUpdate}`, {
-    method: "PUT",
-    headers: {
-      "content-type": "application/json",
-    },
-    body: JSON.stringify(userNewInfo),
-  })
-    .then((response) => {
-      if (response.status === 200) {
-        hideUpdateModal();
-        showToast("success", "کاربر با موفقیت ویرایش شد");
-        fetchUsers();
-      } else {
-        showToast("fail", "خطا در ویرایش کاربر");
-        hideUpdateModal();
-        fetchUsers();
-      }
+  const response = await fetch(
+    `https://js-cms.iran.liara.run/api/users/${userIdToUpdate}`,
+    {
+      method: "PUT",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(userNewInfo),
+    }
+  );
 
-      return response.json();
-    })
-    .then((data) => {
-      console.log(data);
-    });
+  if (response.status === 200) {
+    hideUpdateModal();
+    showToast("success", "کاربر با موفقیت ویرایش شد");
+    fetchUsers();
+  } else {
+    showToast("fail", "خطا در ویرایش کاربر");
+    hideUpdateModal();
+    fetchUsers();
+  }
 };
 
-const fetchUsers = () => {
-  fetch("https://js-cms.iran.liara.run/api/users")
-    .then((response) => response.json())
-    .then((data) => {
-      showUsers(data);
-    });
+const fetchUsers = async () => {
+  const response = await fetch("https://js-cms.iran.liara.run/api/users");
+  const data = await response.json();
+
+  showUsers(data);
 };
 
 const showToast = (status, message) => {
