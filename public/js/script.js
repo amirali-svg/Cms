@@ -54,21 +54,20 @@ const showLastUsers = (users) => {
   });
 };
 
-window.addEventListener("load", () => {
-  fetch("https://js-cms.iran.liara.run/api/courses")
-    .then((response) => response.json())
-    .then((data) => {
-      coursesCountTopElem.innerHTML = data.length;
+window.addEventListener("load", async () => {
+  const res = await fetch("https://js-cms.iran.liara.run/api/courses");
+  const data = await res.json();
 
-      showLastCourses(data);
-    });
+  coursesCountTopElem.innerHTML = data.length;
+
+  showLastCourses(data);
 });
 
-window.addEventListener("load", () => {
-  fetch("https://js-cms.iran.liara.run/api/users")
-    .then((response) => response.json())
-    .then((data) => {
-      usersCountTopElem.innerHTML = data.length;
-      showLastUsers(data);
-    });
+window.addEventListener("load", async () => {
+  const res = await fetch("https://js-cms.iran.liara.run/api/users");
+  const data = await res.json();
+
+  usersCountTopElem.innerHTML = data.length;
+
+  showLastUsers(data);
 });
