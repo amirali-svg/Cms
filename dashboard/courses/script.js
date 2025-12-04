@@ -122,30 +122,26 @@ const showToast = (status, message) => {
   }, 40);
 };
 
-const removeCourse = () => {
-  fetch(`https://js-cms.iran.liara.run/api/courses/${courseIdToRemove}`, {
-    method: "DELETE",
-  })
-    .then((response) => {
-      if (response.status === 200) {
-        fetchCourses();
-        showToast("success", "دوره با موفقیت حذف شد");
-        hideRemoveModal();
-      } else {
-        showToast("fail", "خطا در حذف دوره");
-      }
+const removeCourse = async () => {
+  const res = await fetch(
+    `https://js-cms.iran.liara.run/api/courses/${courseIdToRemove}`,
+    {
+      method: "DELETE",
+    }
+  );
 
-      return response.json();
-    })
-    .then((data) => {
-      console.log(data);
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+  if (res.status == 200) {
+    fetchCourses();
+    showToast("success", "دوره با موفقیت حذف شد");
+    hideRemoveModal();
+  } else {
+    showToast("fail", "خطا در حذف دوره");
+  }
+
+  const data = await res.json();
 };
 
-const updateCourse = () => {
+const updateCourse = async () => {
   const courseNewInfo = {
     title: courseNewTitle.value,
     price: +courseNewPrice.value,
@@ -153,33 +149,27 @@ const updateCourse = () => {
     category: courseNewCategory.value,
   };
 
-  fetch(`https://js-cms.iran.liara.run/api/courses/${courseIdToUpdate}`, {
-    method: "PUT",
-    headers: {
-      "content-type": "application/json",
-    },
-    body: JSON.stringify(courseNewInfo),
-  })
-    .then((response) => {
-      if (response.status === 201) {
-        hideUpdateModal();
-        showToast("success", "دوره با موفقیت بروزرسانی شد");
-        fetchCourses();
-      } else {
-        showToast("fail", "خطا در بروزرسانی دوره");
-      }
+  const res = await fetch(
+    `https://js-cms.iran.liara.run/api/courses/${courseIdToUpdate}`,
+    {
+      method: "PUT",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(courseNewInfo),
+    }
+  );
 
-      return response.json();
-    })
-    .then((data) => {
-      console.log(data);
-    })
-    .catch((err) => {
-      console.log(`[error] => ${err}`);
-    });
+  if (res.status === 201) {
+    hideUpdateModal();
+    showToast("success", "دوره با موفقیت بروزرسانی شد");
+    fetchCourses();
+  } else {
+    showToast("fail", "خطا در بروزرسانی دوره");
+  }
 };
 
-const createCourse = () => {
+const createCourse = async () => {
   const newCourse = {
     title: newCourseTitle.value,
     price: +newCoursePrice.value,
@@ -189,33 +179,27 @@ const createCourse = () => {
     discount: 0,
   };
 
-  fetch("https://js-cms.iran.liara.run/api/courses", {
+  const res = await fetch("https://js-cms.iran.liara.run/api/courses", {
     method: "POST",
     headers: {
       "content-type": "application/json",
     },
     body: JSON.stringify(newCourse),
-  }).then((data) => {
-    if (data.status === 201) {
-      hideCreateModal();
-      showToast("success", "دوره با موفقیت اضافه شد");
-      fetchCourses();
-    } else {
-      showToast("fail", "خطا در اضافه کردن دوره");
-    }
-
-    return data.json();
   });
+  if (res.status === 201) {
+    hideCreateModal();
+    showToast("success", "دوره با موفقیت اضافه شد");
+    fetchCourses();
+  } else {
+    showToast("fail", "خطا در اضافه کردن دوره");
+  }
 };
 
-const fetchCourses = () => {
-  let baseUrl = "https://js-cms.iran.liara.run/api/courses";
+const fetchCourses = async () => {
+  const res = await fetch("https://js-cms.iran.liara.run/api/courses");
+  const data = await res.json();
 
-  fetch(baseUrl)
-    .then((response) => response.json())
-    .then((data) => {
-      showCourses(data);
-    });
+  showCourses(data);
 };
 
 const clearCreateModalInput = () => {
